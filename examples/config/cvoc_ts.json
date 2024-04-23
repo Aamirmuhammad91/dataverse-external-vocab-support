@@ -1,0 +1,38 @@
+[
+{
+  "field-name": "creator",
+  "term-uri-field": "creator",
+  "js-url": "https://raw.githubusercontent.com/Aamirmuhammad91/dataverse-external-vocab-support/test-branch/scripts/ts.js",
+  "protocol": "orcid",
+  "retrieval-uri": "https://service.tib.eu/ts4tib/api/{0}/terms?iri=https%3A%2F%2Fwww.tno.nl%2Fagrifood%2Fontology%2Fcommon-greenhouse-ontology%23Plant",
+  "allow-free-text": true,
+  "prefix": "https://terminology.tib.eu/",
+  "managed-fields": {},
+  "languages":"",
+  "vocabs": {
+      "orcid": {
+          "uriSpace": "https://terminology.tib.eu/"
+      }
+  },
+  "retrieval-filtering": {
+      "@context": {
+          "personName": "https://schema.org/name",
+          "scheme": "http://www.w3.org/2004/02/skos/core#inScheme"
+      },
+      "personName": {
+          "pattern": "{0}, {1}",
+          "params": ["/name/family-name/value", "/name/given-names/value"]
+      },
+      "@id": {
+          "pattern": "{0}",
+          "params": ["@id"]
+      },
+      "scheme": {
+          "pattern": "ORCID"
+      },
+      "@type": {
+          "pattern": "https://schema.org/Person"
+      }
+  }
+}
+]
