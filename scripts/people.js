@@ -15,7 +15,7 @@ function expandPeople() {
             //Mark it as processed
             $(personElement).addClass('expanded');
             var id = personElement.textContent;
-            if (id.startsWith("https://orcid.org/")) {
+            if (id.startsWith("https://orcid.org/")) { 
                 id = id.substring(18);
             }
             //Try it as an ORCID (could validate that it has the right form and even that it validates as an ORCID, or can just let the GET fail
