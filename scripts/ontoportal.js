@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
   const showChildsInputs = false; // true to debug
   const emptyOption = '<option></option>'; // This empty option is really important for select2 to work well with a created tag and select event triggered
 
-  // expand();
+  expand();
   // In metadata edition, verify if Ontoportal is up to print select HTML tag + load ontologies
   if ($(inputSelector).length) {
     let cvocUrl = $(inputSelector).first().data('cvoc-service-url').trim();
