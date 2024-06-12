@@ -185,72 +185,6 @@ jQuery(document).ready(function ($) {
         //Vocab Selector
         //Currently the code creates a selection form even if there is one vocabulary, and then hides it in that case. (ToDo: only create it if needed)
         //We create a unique id to be able to find this particular input again
-        /*var vocabId = "skosmosVocabSelect_" + num;
-              //Create a div covering 3/12s of the width
-              $(anchorSib).before($('<div/>').addClass('cvoc-vocab col-sm-3'));
-              //Add a label
-              $(anchorSib).parent().find('.cvoc-vocab').append($('<label/>').text('Vocabulary'));
-              //Create the select element
-              $(anchorSib).parent().find('.cvoc-vocab').append(
-                  '<select id=' + vocabId + ' class="form-control add-resource select2" tabindex="-1" aria-hidden="true">');
-              //Add all of the vocabularies as options
-              for (var key in vocabs) {
-                  $("#" + vocabId).append($('<option>').attr('value', key).html($('<a>').attr('href', vocabs[key].vocabularyUri).attr('target', '_blank').attr('rel', 'noopener').text(key)));
-              }
-              //Setup select2 - this allows users to find a vocab by typing a few letters in it to filter the list
-              $("#" + vocabId).select2({
-                  theme: "classic",
-                  tags: false,
-                  delay: 500,
-                  templateResult: function(item) {
-                      // No need to template the searching text
-                      if (item.loading) {
-                          return item.text;
-                      }
-                      var term = '';
-                      if (typeof(query) !== 'undefined') {
-                          term = query.term;
-                      }
-                      // markMatch bolds the search term if/where it
-                      // appears in the result
-                      var $result = markMatch(item.text, term);
-                      return $result;
-                  },
-                  placeholder: "Select a vocabulary",
-                  //Shows the full list when nothing has been typed
-                  minimumInputLength: 0,
-              });
-              //When a vocab is selected
-              $('#' + vocabId).on('select2:select', function(e) {
-                  var data = e.params.data;
-                  vocab = data.id;
-                  //Set the current vocab attribute on our term uri select,
-                  // clear it's current value (which could be from a different vocab)
-                  $('#' + selectId).attr('data-cvoc-cur-vocab', vocab);
-                  $("#" + selectId).text('');
-                  // and trigger a change so that it then clears the original hidden input field
-                  $('#' + selectId).val(null).trigger('change');
-              });
-              //We only need this if there is more than one vocab and we don't already have a value - hide it otherwise
-              if (Object.keys(vocabs).length == 1 || $(input).val().startsWith("http")) {
-                  $(anchorSib).parent().find('.cvoc-vocab').hide();
-              }
-  
-              // Add a select2 element for the term itself - to allow search and provide a list of choices
-              //For multiple vocabs, we put this after the vocab selector
-              if ($(anchorSib).parent().find('.cvoc-vocab').length != 0) {
-                  $(anchorSib).parent().find('.cvoc-vocab').after($('<div/>').addClass('cvoc-term col-sm-9').append($('<label/>').text('Term')).append(
-                      '<select id=' + selectId + ' class="form-control add-resource select2" tabindex="-1" aria-hidden="true">'));
-                  $('#' + selectId).attr('data-cvoc-cur-vocab', vocab);
-                  if (Object.keys(vocabs).length == 1 || $(input).val().startsWith("http")) {
-                      $(anchorSib).parent().find('.cvoc-term > label').hide();
-                      $('.cvoc-term').removeClass('col-sm-9');
-                  }
-              } else {
-                  //Otherwise we put it after the hidden input itself
-                  $(anchorSib).after(
-                      '<select id=' + selectId + ' class="form-control add-resource select2" tabindex="-1" aria-hidden="true">');
-              }*/
 
         $(anchorSib).after(`<select id=${selectId} class="form-control add-resource select2" tabindex="-1" aria-hidden="true">${emptyOption}</select>`);
         // Set up this select2
@@ -351,34 +285,6 @@ jQuery(document).ready(function ($) {
         // If the input has a value already, format it the same way as if it were a new selection.
         let id = $(input).val();
         let ontology = $(anchorSib).parent().children().find(vocabNameSelector).val();
-        /* do not perform this ajax call, all values are presents
-              if (id.startsWith("http") && ontology) {
-                  $.ajax({
-                      type: "GET",
-                      url: `${cvocUrl}ontologies/${ontology}/classes/${encodeURIComponent(id)}`,
-                      dataType: "json",
-                      headers: cvocHeaders,
-                      success: function(term, textStatus, jqXHR) {
-                          termName = term.prefLabel;
-                          let text = `${termName}, ${term.links.ui}`;
-                          let newOption = new Option(text, id, true, true);
-                          newOption.title = getLocalizedText("selectTitle");
-                          $(`#${selectId}`).append(newOption).trigger("change");
-                          // TODO: can't get altLabel from this api call, also can't determine the vocab from this call
-                      },
-                      error: function(jqXHR, textStatus, errorThrown) {
-                          console.error(`${textStatus}: ${errorThrown}`);
-                          // Something is wrong, but we should show that a value is currently set
-                          let newOption = new Option(id, id, true, true);
-                          $(`#${selectId}`).append(newOption).trigger("change");
-                      }
-                  });
-              } else {
-                  // If the initial value is not a managed term (legacy, or if tags are enabled), just display it as is
-                  let newOption = new Option(id, id, true, true);
-                  $(`#${selectId}`).append(newOption).trigger("change");
-              }
-              */
         let termName = $(anchorSib).parent().children().find(termSelector).val();
         let newOption;
         if (id) {
@@ -417,6 +323,7 @@ jQuery(document).ready(function ($) {
                   $(parent).find(vocabNameSelector).attr('value', findVocAcronymById(data.voc));
                 } else if (key == 'vocabularyUri') {
                   // Get the vocabulary URI from Ontoportal with "/latest_submission" API endpoint
+                  console.log('data.voc ----------- ' + data);
                   let uri = data.voc.replace('data.', '');
                   $.ajax({
                     type: 'GET',

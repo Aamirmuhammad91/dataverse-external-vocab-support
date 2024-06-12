@@ -1,11 +1,11 @@
 [{
     "field-name": "keyword",
-    "term-uri-field": "keywordTermURL",
+    "term-uri-field": "keywordTermURI",
     "cvoc-url": "https://data.agroportal.lirmm.fr/",
     "js-url": "https://raw.githubusercontent.com/Aamirmuhammad91/dataverse-external-vocab-support/test-branch/scripts/ontoportal.js",
     "headers": {"Authorization": "apikey token=<your_apikey>"},
     "protocol": "ontoportal",
-    "retrieval-uri": "https://data.agroportal.lirmm.fr/ontologies/{keywordVocabulary}/classes/{encodeUrl:keywordTermURL}?language=en,fr",
+    "retrieval-uri": "https://data.agroportal.lirmm.fr/ontologies/{keywordVocabulary}/classes/{encodeUrl:keywordTermURI}?language=en,fr",
     "term-parent-uri": "",
     "allow-free-text": true,
     "languages":"en, fr",

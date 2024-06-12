@@ -258,6 +258,7 @@ jQuery(document).ready(function ($) {
                     // aamir need to modify below "voc" and "urUrl" for Terminology Service
                     // voc: x.links.ontology,
                     // uiUrl: x.links.ui,
+                    voc: x.ontology_name,
                     uiUrl: getUiUrl(x.ontology_name, x.iri),
                     // Using title to provide that hint as a popup
                     title: translations.en.selectTitle,
@@ -309,13 +310,14 @@ jQuery(document).ready(function ($) {
               $(`input[data-ts="${num}"]`).val(data.id);
               for (let key in managedFields) {
                 if (key == 'vocabularyName') {
-                  $(parent).find(vocabNameSelector).attr('value', findVocAcronymById(data.voc));
+                  $(parent).find(vocabNameSelector).attr('value', data.voc);
                 } else if (key == 'vocabularyUri') {
                   // Get the vocabulary URI from TS with "/latest_submission" API endpoint
+                  // data.voc = https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE
                   let uri = data.voc.replace('data.', '');
                   $.ajax({
                     type: 'GET',
-                    url: `${data.voc}/latest_submission?display=URI`,
+                    url: `${data.voc}/latest_submission?display=URI`, // https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE/submissions/8
                     dataType: 'json',
                     success: function (ontology, textStatus, jqXHR) {
                       if (ontology.URI) {
