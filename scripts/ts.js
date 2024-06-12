@@ -93,9 +93,10 @@ jQuery(document).ready(function ($) {
           let termName = parent.find(`[data-cvoc-metadata-name="${managedFields.termName}"][data-cvoc-index="${index}"]`).text();
           console.log('termName in expand() ----------------- ' + termName);
           let ontology = parent.find(`[data-cvoc-metadata-name="${managedFields.vocabularyName}"][data-cvoc-index="${index}"]`).text();
+          console.log('ontology in expand() ----------- ' + ontology);
           // let url = cvocUrl.replace('data.', '') + 'ontologies/' + ontology + '?p=classes&conceptid=' + encodeURIComponent(id);
           // https://agroportal.lirmm.fr/ontologies/ONTOBIOTOPE?p=classes&conceptid=http://purl.obolibrary.org/obo/OBT_003698
-          let url = 'https://terminology.tib.eu/ts/ontologies/' + 'cgo' + '/terms?iri=' + encodeURIComponent(id);
+          let url = 'https://terminology.tib.eu/ts/ontologies/' + ontology + '/terms?iri=' + encodeURIComponent(id);
           // https://terminology.tib.eu/ts/ontologies/cgo/terms?iri=https://www.tno.nl/agrifood/ontology/common-greenhouse-ontology#Plant&obsoletes=false
           console.log(url);
           if (parent.is('a')) {
@@ -122,7 +123,7 @@ jQuery(document).ready(function ($) {
 
     //Special case allow-free-text is true + typed value is mapped to termValue instead of termUri
     $("span[data-cvoc-metadata-name='keywordValue'][data-cvoc-index]").each(function () {
-      if ($(`span[data-cvoc-protocol='ontoportal'][data-cvoc-index="${$(this).attr('data-cvoc-index')}"]`).length == 0) {
+      if ($(`span[data-cvoc-protocol='ts'][data-cvoc-index="${$(this).attr('data-cvoc-index')}"]`).length == 0) {
         $(this).removeClass('hidden').removeAttr('hidden');
       }
     });
@@ -258,7 +259,8 @@ jQuery(document).ready(function ($) {
                     // aamir need to modify below "voc" and "urUrl" for Terminology Service
                     // voc: x.links.ontology,
                     // uiUrl: x.links.ui,
-                    voc: x.ontology_name,
+                    // voc: x.ontology_name,
+                    voc: `https://service.tib.eu/ts4tib/api/ontologies/${x.ontology_name}`,
                     uiUrl: getUiUrl(x.ontology_name, x.iri),
                     // Using title to provide that hint as a popup
                     title: translations.en.selectTitle,
@@ -277,9 +279,10 @@ jQuery(document).ready(function ($) {
         let termName = $(anchorSib).parent().children().find(termSelector).val();
         let newOption;
         if (id) {
+          console.log('id -- ' + id + '---ontology --- ' + ontology + '-----termName------' + termName);
           newOption = new Option(
             // `${termName} - ${findVocNameByAcronym(ontology)} (${ontology})${cvocUrl.replace('data.', '')}ontologies/${ontology}?p=classes&conceptid=${encodeURIComponent(id)}`,
-            `${termName} - cgo (${ontology})https://terminology.tib.eu/ts/ontologies/cgo/terms?iri=${encodeURIComponent(id)}`,
+            `${termName} - cgo (${ontology})https://terminology.tib.eu/ts/ontologies/${ontology}/terms?iri=${encodeURIComponent(id)}`,
             id,
             true,
             true
@@ -310,14 +313,14 @@ jQuery(document).ready(function ($) {
               $(`input[data-ts="${num}"]`).val(data.id);
               for (let key in managedFields) {
                 if (key == 'vocabularyName') {
-                  $(parent).find(vocabNameSelector).attr('value', data.voc);
+                  $(parent).find(vocabNameSelector).attr('value', findVocAcronymById(data.voc));
                 } else if (key == 'vocabularyUri') {
                   // Get the vocabulary URI from TS with "/latest_submission" API endpoint
-                  // data.voc = https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE
+                  console.log('data.voc -------- ' + data.voc);
                   let uri = data.voc.replace('data.', '');
                   $.ajax({
                     type: 'GET',
-                    url: `${data.voc}/latest_submission?display=URI`, // https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE/submissions/8
+                    url: `${data.voc}/latest_submission?display=URI`,
                     dataType: 'json',
                     success: function (ontology, textStatus, jqXHR) {
                       if (ontology.URI) {

@@ -4,7 +4,7 @@
     "cvoc-url": "https://service.tib.eu/ts4tib/",
     "js-url": "https://aamirmuhammad91.github.io/dataverse-external-vocab-support/scripts/ts.js",
     "protocol": "ts",
-    "retrieval-uri": "https://terminology.tib.eu/ts/ontologies/cgo/terms?iri={encodeUrl:keywordTermURI}",
+    "retrieval-uri": "https://terminology.tib.eu/ts/ontologies/{keywordVocabulary}/terms?iri={encodeUrl:keywordTermURI}",
     "term-parent-uri": "",
     "allow-free-text": true,
     "languages":"en, fr",
