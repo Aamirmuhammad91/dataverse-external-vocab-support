@@ -313,17 +313,18 @@ jQuery(document).ready(function ($) {
               $(`input[data-ts="${num}"]`).val(data.id);
               for (let key in managedFields) {
                 if (key == 'vocabularyName') {
-                  $(parent).find(vocabNameSelector).attr('value', findVocAcronymById(data.voc));
+                  $(parent).find(vocabNameSelector).attr('value', findVocAcronymById(data.voc)); //https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE
                 } else if (key == 'vocabularyUri') {
                   // Get the vocabulary URI from TS with "/latest_submission" API endpoint
-                  console.log('data.voc -------- ' + data.voc);
-                  let uri = data.voc.replace('data.', '');
+                  console.log('data.voc -------- ' + data.voc); //https://service.tib.eu/ts4tib/api/ontologies/dr
+                  let uri = data.voc;
                   $.ajax({
                     type: 'GET',
-                    url: `${data.voc}/latest_submission?display=URI`,
+                    url: `${data.voc}`, // https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE/latest_submission?display=URI , https://service.tib.eu/ts4tib/api/ontologies/dr
                     dataType: 'json',
                     success: function (ontology, textStatus, jqXHR) {
                       if (ontology.URI) {
+                        // https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE/submissions/8
                         uri = ontology.URI;
                       }
                       $(parent).find(vocabUriSelector).attr('value', uri);

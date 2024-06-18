@@ -323,6 +323,7 @@ jQuery(document).ready(function ($) {
                   $(parent).find(vocabNameSelector).attr('value', findVocAcronymById(data.voc));
                 } else if (key == 'vocabularyUri') {
                   // Get the vocabulary URI from Ontoportal with "/latest_submission" API endpoint
+                  // https://data.agroportal.lirmm.fr/ontologies/ONTOBIOTOPE/latest_submission?display=URI
                   console.log('data.voc ----------- ' + data);
                   let uri = data.voc.replace('data.', '');
                   $.ajax({
