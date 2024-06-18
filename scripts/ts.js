@@ -282,7 +282,7 @@ jQuery(document).ready(function ($) {
           console.log('id -- ' + id + '---ontology --- ' + ontology + '-----termName------' + termName);
           newOption = new Option(
             // `${termName} - ${findVocNameByAcronym(ontology)} (${ontology})${cvocUrl.replace('data.', '')}ontologies/${ontology}?p=classes&conceptid=${encodeURIComponent(id)}`,
-            `${termName} - cgo (${ontology})https://terminology.tib.eu/ts/ontologies/${ontology}/terms?iri=${encodeURIComponent(id)}`,
+            `${termName} - ${ontology} (${ontology})https://terminology.tib.eu/ts/ontologies/${ontology}/terms?iri=${encodeURIComponent(id)}`,
             id,
             true,
             true
